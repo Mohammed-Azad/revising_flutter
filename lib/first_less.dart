@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHome extends StatelessWidget {
   const MyHome({super.key});
@@ -75,8 +75,9 @@ class MyHome extends StatelessWidget {
                 ),
               ),
               Card(
-                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20), 
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: ListTile(
+                  onTap: _launchURL,
                   leading: Icon(
                     Icons.email,
                     color: Colors.black,
@@ -93,5 +94,15 @@ class MyHome extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+_launchURL() async {
+  const url = 'https://mail.google.com/mail/#compose';
+  final uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
+  } else {
+    throw 'Could not launch $url';
   }
 }
